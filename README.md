@@ -21,7 +21,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/addons-dark.png">
-  <img alt="The dashboard's Add-ons page with demo data: Todoist, Calendar and Shipments installed, Shipments showing two parcels on the way and one ready for pickup, and the store listing Mail, WhatsApp, PoliTO and Plan my day with Install buttons." src="docs/screenshots/addons-light.png">
+  <img alt="The dashboard's Add-ons page with demo data: Calendar, Shipments, Todoist and WhatsApp installed, each with its status line, and the Shipments panel showing two parcels on the way and one to pick up." src="docs/screenshots/addons-light.png">
 </picture>
 
 ## Why a store
