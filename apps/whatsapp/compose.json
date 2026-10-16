@@ -1,0 +1,48 @@
+{
+  "services": {
+    "whatsapp-waha1": {
+      "image": "devlikeapro/waha:noweb-2026.9.2",
+      "environment": {
+        "WAHA_API_KEY": "${SETTING_APIKEY}",
+        "WHATSAPP_DEFAULT_ENGINE": "NOWEB",
+        "WHATSAPP_RESTART_ALL_SESSIONS": "True",
+        "WAHA_PRINT_QR": "False",
+        "WAHA_DASHBOARD_ENABLED": "False",
+        "WHATSAPP_SWAGGER_ENABLED": "False"
+      },
+      "volumes": ["sessions1:/app/.sessions", "media1:/app/.media"],
+      "mem_limit": "350m"
+    },
+    "whatsapp-waha2": {
+      "image": "devlikeapro/waha:noweb-2026.9.2",
+      "environment": {
+        "WAHA_API_KEY": "${SETTING_APIKEY}",
+        "WHATSAPP_DEFAULT_ENGINE": "NOWEB",
+        "WHATSAPP_RESTART_ALL_SESSIONS": "True",
+        "WAHA_PRINT_QR": "False",
+        "WAHA_DASHBOARD_ENABLED": "False",
+        "WHATSAPP_SWAGGER_ENABLED": "False"
+      },
+      "volumes": ["sessions2:/app/.sessions", "media2:/app/.media"],
+      "mem_limit": "350m"
+    },
+    "whatsapp-adapter": {
+      "build": "./adapter",
+      "x-dashboard": true,
+      "environment": {
+        "WAHA1_URL": "http://whatsapp-waha1:3000",
+        "WAHA2_URL": "http://whatsapp-waha2:3000",
+        "WAHA_API_KEY": "${SETTING_APIKEY}"
+      },
+      "volumes": ["adapterdata:/data"],
+      "mem_limit": "128m"
+    }
+  },
+  "volumes": {
+    "sessions1": {},
+    "media1": {},
+    "sessions2": {},
+    "media2": {},
+    "adapterdata": {}
+  }
+}

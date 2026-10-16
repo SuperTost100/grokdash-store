@@ -1,0 +1,56 @@
+{
+  "name": "Grok Bot Dashboard store",
+  "items": [
+    {
+      "id": "todoist",
+      "name": "Todoist",
+      "type": "addon",
+      "path": "addons/todoist",
+      "description": "Your Todoist tasks on Today. Tick one on the dashboard and it's done in Todoist."
+    },
+    {
+      "id": "calendar",
+      "name": "Calendar",
+      "type": "addon",
+      "path": "addons/calendar",
+      "description": "Your calendars on the agenda, read from their secret iCal addresses. Recurring events and moved ones included."
+    },
+    {
+      "id": "mail",
+      "name": "Mail",
+      "type": "addon",
+      "path": "addons/mail",
+      "description": "Reads up to three mailboxes over IMAP, read-only, and sends new mail and your replies to triage."
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp",
+      "type": "app",
+      "path": "apps/whatsapp",
+      "description": "Your WhatsApp chats go to triage. Runs a WAHA bridge for each number; link a number by scanning its QR code in the panel. Read only: it never sends or marks anything read.",
+      "memory": "700 MB"
+    },
+    {
+      "id": "polito",
+      "name": "PoliTO",
+      "type": "app",
+      "path": "apps/polito",
+      "description": "Course avvisi and school messages from the Politecnico di Torino as cards, and deadlines on the agenda. Closing a card marks it read on PoliTO.",
+      "memory": "250 MB"
+    },
+    {
+      "id": "shipments",
+      "name": "Shipments",
+      "type": "addon",
+      "path": "addons/shipments",
+      "description": "Your parcels at a glance, from the shipping mails you already get. A card when one arrives today or waits at a pickup point."
+    },
+    {
+      "id": "plan-my-day",
+      "name": "Plan my day",
+      "type": "addon",
+      "path": "addons/plan-my-day",
+      "description": "Fits your to-dos into your free time. A draft for tomorrow every evening; nothing goes in your calendar until you approve it."
+    }
+  ]
+}

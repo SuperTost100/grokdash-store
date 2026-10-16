@@ -1,0 +1,24 @@
+{
+  "id": "mail",
+  "name": "Mail",
+  "type": "addon",
+  "description": "Reads up to three mailboxes over IMAP, read-only, and sends new mail and your replies to triage.",
+  "color": "#5b5a55",
+  "entry": "index.mjs",
+  "asks": ["triage"],
+  "settings": [
+    { "key": "mail1Name", "label": "Mail 1: name", "help": "Shown on cards from this mailbox." },
+    { "key": "mail1Host", "label": "Mail 1: IMAP server", "help": "Port 993 with TLS. Add :port for another one. Empty turns this mailbox off." },
+    { "key": "mail1User", "label": "Mail 1: login", "help": "Usually the full address." },
+    { "key": "mail1Password", "label": "Mail 1: password", "type": "secret", "help": "For Gmail, an app password (Google Account > Security > App passwords), not your normal one." },
+    { "key": "mail2Name", "label": "Mail 2: name", "help": "Shown on cards from this mailbox." },
+    { "key": "mail2Host", "label": "Mail 2: IMAP server", "help": "Port 993 with TLS. Add :port for another one. Empty turns this mailbox off." },
+    { "key": "mail2User", "label": "Mail 2: login", "help": "Usually the full address." },
+    { "key": "mail2Password", "label": "Mail 2: password", "type": "secret", "help": "For Gmail, an app password (Google Account > Security > App passwords), not your normal one." },
+    { "key": "mail3Name", "label": "Mail 3: name", "help": "Shown on cards from this mailbox." },
+    { "key": "mail3Host", "label": "Mail 3: IMAP server", "help": "Port 993 with TLS. Add :port for another one. Empty turns this mailbox off." },
+    { "key": "mail3User", "label": "Mail 3: login", "help": "Usually the full address." },
+    { "key": "mail3Password", "label": "Mail 3: password", "type": "secret", "help": "For Gmail, an app password (Google Account > Security > App passwords), not your normal one." },
+    { "key": "every", "label": "Read every", "type": "number", "default": 2, "help": "Minutes between reads." }
+  ]
+}

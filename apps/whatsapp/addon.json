@@ -1,0 +1,15 @@
+{
+  "id": "whatsapp",
+  "name": "WhatsApp",
+  "type": "app",
+  "description": "Your WhatsApp chats go to triage. Runs a WAHA bridge for each number; link a number by scanning its QR code in the panel. Read only: it never sends or marks anything read.",
+  "color": "#25d366",
+  "compose": "compose.json",
+  "memory": "700 MB",
+  "asks": ["triage"],
+  "settings": [
+    { "key": "apiKey", "label": "API key", "type": "secret", "required": true, "help": "Any long random text, like the output of openssl rand -hex 24. Both WAHA bridges use it, and nothing else needs it." },
+    { "key": "number1Name", "label": "First number name", "default": "WhatsApp", "help": "Shown on cards from this number, so you can tell your numbers apart." },
+    { "key": "number2Name", "label": "Second number name", "default": "", "help": "Shown on cards from the second number. Empty turns the second number off." }
+  ]
+}

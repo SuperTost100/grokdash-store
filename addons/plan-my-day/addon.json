@@ -1,0 +1,16 @@
+{
+  "id": "plan-my-day",
+  "name": "Plan my day",
+  "type": "addon",
+  "description": "Fits your to-dos into your free time. A draft for tomorrow every evening; nothing goes in your calendar until you approve it.",
+  "color": "#8a5cc2",
+  "entry": "index.mjs",
+  "asks": ["agenda", "todos", "handoffs", "decide"],
+  "settings": [
+    { "key": "bot", "label": "Bot that writes your calendar", "default": "secretary", "help": "Its grokdash id. It redoes the plan when you write a note, and adds the blocks once you approve." },
+    { "key": "draftAt", "label": "Draft tomorrow at", "default": "21:00", "help": "HH:MM. If you don't use that draft, a new one for the rest of the day comes in the morning." },
+    { "key": "dayStart", "label": "Day starts", "default": "08:00", "help": "HH:MM. Nothing is placed before this." },
+    { "key": "dayEnd", "label": "Day ends", "default": "22:00", "help": "HH:MM. Nothing is placed after this." },
+    { "key": "gap", "label": "Break between blocks", "type": "number", "default": 10, "help": "Minutes, also kept around calendar events." }
+  ]
+}

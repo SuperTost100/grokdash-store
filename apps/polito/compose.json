@@ -1,0 +1,29 @@
+{
+  "services": {
+    "polito-areadidattica": {
+      "build": "https://github.com/SuperTost100/areadidattica-cli.git",
+      "environment": {
+        "POLITO_USERNAME": "${SETTING_POLITO_USERNAME}",
+        "POLITO_PASSWORD": "${SETTING_POLITO_PASSWORD}",
+        "API_TOKEN": "${SETTING_TOKEN}",
+        "HOST": "0.0.0.0",
+        "PORT": "8789",
+        "DATA_DIR": "/data"
+      },
+      "volumes": ["data:/data"],
+      "mem_limit": "150m"
+    },
+    "polito-adapter": {
+      "build": "./adapter",
+      "x-dashboard": true,
+      "depends_on": ["polito-areadidattica"],
+      "environment": {
+        "AREADIDATTICA_URL": "http://polito-areadidattica:8789",
+        "AREADIDATTICA_TOKEN": "${SETTING_TOKEN}"
+      },
+      "volumes": ["adapter:/data"],
+      "mem_limit": "100m"
+    }
+  },
+  "volumes": { "data": {}, "adapter": {} }
+}

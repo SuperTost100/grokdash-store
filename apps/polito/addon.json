@@ -1,0 +1,16 @@
+{
+  "id": "polito",
+  "name": "PoliTO",
+  "type": "app",
+  "description": "Course avvisi and school messages from the Politecnico di Torino as cards, and deadlines on the agenda. Closing a card marks it read on PoliTO.",
+  "color": "#014271",
+  "compose": "compose.json",
+  "memory": "250 MB",
+  "asks": [],
+  "settings": [
+    { "key": "polito_username", "label": "PoliTO student id", "required": true, "help": "Like s123456. The login of the PoliTO Students app." },
+    { "key": "polito_password", "label": "PoliTO password", "type": "secret", "required": true, "help": "Stays inside the app's containers." },
+    { "key": "token", "label": "Shared token", "type": "secret", "required": true, "help": "Any long random text, at least 24 characters. The adapter and areadidattica use it to talk to each other." },
+    { "key": "everyHours", "label": "Check every", "type": "number", "default": 2, "help": "Hours between checks. The panel's Check now button checks at once." }
+  ]
+}

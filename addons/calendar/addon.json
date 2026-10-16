@@ -1,0 +1,14 @@
+{
+  "id": "calendar",
+  "name": "Calendar",
+  "type": "addon",
+  "description": "Your calendars on the agenda, read from their secret iCal addresses. Recurring events and moved ones included.",
+  "color": "#4285f4",
+  "entry": "index.mjs",
+  "asks": [],
+  "settings": [
+    { "key": "urls", "label": "iCal addresses", "type": "secret", "required": true, "help": "One or more secret iCal addresses, separated by spaces or new lines. In Google Calendar: Settings, your calendar, \"Secret address in iCal format\"." },
+    { "key": "every", "label": "Read every", "type": "number", "default": 10, "help": "Minutes between reads." },
+    { "key": "days", "label": "Days ahead", "type": "number", "default": 3, "help": "How many days from today to show, today included." }
+  ]
+}

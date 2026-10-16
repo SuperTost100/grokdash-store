@@ -1,0 +1,14 @@
+{
+  "id": "todoist",
+  "name": "Todoist",
+  "type": "addon",
+  "description": "Your Todoist tasks on Today. Tick one on the dashboard and it's done in Todoist.",
+  "color": "#e44332",
+  "entry": "index.mjs",
+  "asks": [],
+  "settings": [
+    { "key": "token", "label": "API token", "type": "secret", "required": true, "help": "Todoist, Settings, Integrations, Developer, API token." },
+    { "key": "filter", "label": "Filter", "help": "Only tasks matching this Todoist filter, like \"#Work | today\". Empty means all active tasks." },
+    { "key": "every", "label": "Read every", "type": "number", "default": 2, "help": "Minutes between reads." }
+  ]
+}

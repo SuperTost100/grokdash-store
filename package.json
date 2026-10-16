@@ -1,0 +1,24 @@
+{
+  "name": "grokdash-store",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Add-ons and apps for the Grok Bot Dashboard.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "ical.js": "^2.2.1",
+    "imapflow": "^2.4.2",
+    "postal-mime": "^4.0.6"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

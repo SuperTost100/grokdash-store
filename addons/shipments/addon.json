@@ -1,0 +1,12 @@
+{
+  "id": "shipments",
+  "name": "Shipments",
+  "type": "addon",
+  "description": "Your parcels at a glance, from the shipping mails you already get. A card when one arrives today or waits at a pickup point.",
+  "color": "#b7791f",
+  "entry": "index.mjs",
+  "asks": ["messages"],
+  "settings": [
+    { "key": "every", "label": "Read every", "type": "number", "default": 10, "help": "Minutes between looks at new mail." }
+  ]
+}
