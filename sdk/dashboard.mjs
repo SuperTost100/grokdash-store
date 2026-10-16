@@ -77,9 +77,11 @@ export const memory = {
   },
 };
 
-export const log = (...args) => console.log(new Date().toISOString().slice(11, 19), ...args);
+export const log = (...args) => console.log(new Date().toLocaleTimeString("en-GB", { timeZone: tz, hour12: false }), ...args);
 
-/** Run fn now and then every `ms`. A failure shows as the add-on's status and is tried again next time. */
+const readers = [];
+
+/** Run fn now and then every `ms`. A failure shows as the add-on's status and is tried again next time. Refresh on the page runs it at once. */
 export function every(ms, fn) {
   let running = false;
   const tick = async () => {
@@ -94,16 +96,23 @@ export function every(ms, fn) {
       running = false;
     }
   };
+  readers.push(tick);
   void tick();
+  // An add-on that takes no taps still answers Refresh: poll for actions anyway.
+  setTimeout(() => { if (!polling) onAction(async () => ({ ok: false, result: "This add-on takes no taps." })); }, 0);
   return setInterval(tick, ms);
 }
+
+let polling = null;
 
 /**
  * Handle taps on your cards and panel, and cards the user closed. `handler(action)` returns
  * { ok, result } or nothing (counts as done); throwing reports a failure with the error's message.
- * Action types: choose, send, write, panel, complete_todo, closed ({ key, reason }).
+ * Action types: choose, send, write, panel, complete_todo, closed ({ key, reason }). Refresh on the
+ * page is handled here: `opts.onRefresh` runs, then every function given to `every()`.
  */
 export function onAction(handler, opts = {}) {
+  if (polling) clearInterval(polling);
   const pollMs = opts.pollMs ?? 4000;
   const onResult = opts.onHandoffResult;
   const onHandoff = opts.onHandoff;
@@ -116,6 +125,13 @@ export function onAction(handler, opts = {}) {
       for (const a of got.actions ?? []) {
         let ok = true;
         let result = "";
+        // Refresh on the page: read now, whatever the handler does.
+        if (a.type === "refresh") {
+          await opts.onRefresh?.();
+          await Promise.all(readers.map((r) => r()));
+          await api("POST", `/api/bot/actions/${a.id}`, { ok: true, result: "Read" }).catch(() => {});
+          continue;
+        }
         try {
           const r = await handler(a);
           if (r && typeof r === "object") ({ ok = true, result = "" } = r);
@@ -144,7 +160,8 @@ export function onAction(handler, opts = {}) {
     }
   };
   void tick();
-  return setInterval(tick, pollMs);
+  polling = setInterval(tick, pollMs);
+  return polling;
 }
 
 /** Today's date (YYYY-MM-DD) and the time (HH:MM) in the dashboard's time zone. */

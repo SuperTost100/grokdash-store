@@ -50068,7 +50068,8 @@ var memory = {
     fs.renameSync(file + ".tmp", file);
   }
 };
-var log = (...args) => console.log((/* @__PURE__ */ new Date()).toISOString().slice(11, 19), ...args);
+var log = (...args) => console.log((/* @__PURE__ */ new Date()).toLocaleTimeString("en-GB", { timeZone: tz, hour12: false }), ...args);
+var readers = [];
 function every(ms, fn) {
   let running = false;
   const tick = async () => {
@@ -50084,8 +50085,66 @@ function every(ms, fn) {
       running = false;
     }
   };
+  readers.push(tick);
   void tick();
+  setTimeout(() => {
+    if (!polling) onAction(async () => ({ ok: false, result: "This add-on takes no taps." }));
+  }, 0);
   return setInterval(tick, ms);
+}
+var polling = null;
+function onAction(handler, opts = {}) {
+  if (polling) clearInterval(polling);
+  const pollMs = opts.pollMs ?? 4e3;
+  const onResult = opts.onHandoffResult;
+  const onHandoff = opts.onHandoff;
+  let busy = false;
+  const tick = async () => {
+    if (busy) return;
+    busy = true;
+    try {
+      const got = await api("GET", "/api/bot/actions");
+      for (const a of got.actions ?? []) {
+        let ok = true;
+        let result = "";
+        if (a.type === "refresh") {
+          await opts.onRefresh?.();
+          await Promise.all(readers.map((r) => r()));
+          await api("POST", `/api/bot/actions/${a.id}`, { ok: true, result: "Read" }).catch(() => {
+          });
+          continue;
+        }
+        try {
+          const r = await handler(a);
+          if (r && typeof r === "object") ({ ok = true, result = "" } = r);
+        } catch (err) {
+          ok = false;
+          result = err.message;
+        }
+        await api("POST", `/api/bot/actions/${a.id}`, { ok, result: String(result).slice(0, 500) }).catch((e) => log("report failed:", e.message));
+      }
+      for (const h of got.handoffResults ?? []) await onResult?.(h);
+      for (const h of got.handoffs ?? []) {
+        let ok = true;
+        let result = "";
+        try {
+          result = await onHandoff?.(h) ?? "";
+        } catch (err) {
+          ok = false;
+          result = err.message;
+        }
+        await api("POST", `/api/bot/handoffs/${h.id}`, { ok, result: String(result).slice(0, 2e3) }).catch(() => {
+        });
+      }
+    } catch (err) {
+      if (err.status !== 401) log("actions failed:", err.message);
+    } finally {
+      busy = false;
+    }
+  };
+  void tick();
+  polling = setInterval(tick, pollMs);
+  return polling;
 }
 
 // src/mail/index.mjs

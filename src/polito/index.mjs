@@ -324,5 +324,5 @@ if (process.env.DASH_URL) {
       return { ok: true, result: "Checked PoliTO" };
     }
     return { ok: false, result: "PoliTO cards only close, and the panel only checks." };
-  });
+  }, { onRefresh: () => { nextAt = 0; } });
 }

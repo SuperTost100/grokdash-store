@@ -48,8 +48,11 @@ var memory = {
     fs.renameSync(file + ".tmp", file);
   }
 };
-var log = (...args) => console.log((/* @__PURE__ */ new Date()).toISOString().slice(11, 19), ...args);
+var log = (...args) => console.log((/* @__PURE__ */ new Date()).toLocaleTimeString("en-GB", { timeZone: tz, hour12: false }), ...args);
+var readers = [];
+var polling = null;
 function onAction(handler, opts = {}) {
+  if (polling) clearInterval(polling);
   const pollMs = opts.pollMs ?? 4e3;
   const onResult2 = opts.onHandoffResult;
   const onHandoff = opts.onHandoff;
@@ -62,6 +65,13 @@ function onAction(handler, opts = {}) {
       for (const a of got.actions ?? []) {
         let ok = true;
         let result = "";
+        if (a.type === "refresh") {
+          await opts.onRefresh?.();
+          await Promise.all(readers.map((r) => r()));
+          await api("POST", `/api/bot/actions/${a.id}`, { ok: true, result: "Read" }).catch(() => {
+          });
+          continue;
+        }
         try {
           const r = await handler(a);
           if (r && typeof r === "object") ({ ok = true, result = "" } = r);
@@ -91,7 +101,8 @@ function onAction(handler, opts = {}) {
     }
   };
   void tick();
-  return setInterval(tick, pollMs);
+  polling = setInterval(tick, pollMs);
+  return polling;
 }
 function localNow(at = /* @__PURE__ */ new Date()) {
   const p = Object.fromEntries(
